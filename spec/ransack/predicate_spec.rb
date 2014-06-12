@@ -47,9 +47,9 @@ module Ransack
         (if ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
           /"people"."name" ILIKE '%\\%\\._\\\\%'/
         elsif ActiveRecord::Base.connection.adapter_name == "Mysql2"
-          /`people`.`name` LIKE '%\\\\%\\\\._\\\\\\\\%'/
+          /LOWER(`people`.`name`) LIKE LOWER('%\\\\%\\\\._\\\\\\\\%')/
         else
-         /"people"."name" LIKE '%%._\\%'/
+         /LOWER("people"."name") LIKE LOWER('%%._\\%')/
         end) do
         subject { @s }
       end
